@@ -1,0 +1,344 @@
+/*
+   Folha de Estilo para o TEDI Paint!
+   A ideia aqui é usar as cores e a fonte da identidade visual TEDI
+   e deixar tudo bem fácil de usar, especialmente para o público idoso.
+*/
+
+/* Definindo nossas cores principais e fontes como variáveis. Facilita se a gente quiser mudar depois! */
+:root {
+    /* Paleta de Cores TEDI que veio lá do PDF */
+    --color-tedi-blue-light: #8EC6E6;   /* Este é o azul claro principal agora */
+    --color-tedi-green-light: #A1D99B;
+    --color-tedi-gray-light: #E0E0E0;
+    --color-tedi-blue-dark: #2E3E50;    /* O azulão escuro */
+    --color-tedi-black: #000000;
+    --color-white: #FFFFFF;
+
+    /* Cores que a gente vai usar na interface, baseadas na paleta TEDI */
+    --primary-bg: var(--color-white);                 /* Fundo geral da página */
+    --secondary-bg: #F8F9FC;              /* Um cinzinha bem discreto pro fundo da área principal */
+    --sidebar-bg: var(--color-white);             /* Fundo da barra lateral */
+    --canvas-bg: var(--color-white);                /* Fundo da tela de pintura */
+
+    --text-primary: var(--color-tedi-blue-dark);    /* Cor principal dos textos */
+    --text-secondary: #5D6B7C;           /* Textos secundários, um pouco mais claros */
+    --text-on-accent: var(--color-tedi-blue-dark);  /* Texto que vai sobre o azul claro (precisa de contraste!) */
+    --text-on-dark: var(--color-white);             /* Texto que vai sobre fundos escuros */
+
+    --accent-color: var(--color-tedi-blue-light); /* Cor de destaque principal da interface */
+    --success-color: var(--color-tedi-green-light); /* Pra coisas que deram certo, tipo salvar */
+    --danger-color: #E74C3C;                  /* Vermelho pra alerta, tipo o botão de limpar */
+    --border-color: var(--color-tedi-gray-light);   /* Cor das bordinhas */
+    --border-hover-color: #B0D8F0;        /* Um tom do azul pra quando o mouse passa em cima de algo com borda */
+
+    /* Tipografia que a IDV pediu: Rubik */
+    --font-family: 'Rubik', sans-serif;
+
+    /* Sombras e arredondamentos pra dar um toque suave */
+    --shadow-soft: 0 2px 5px rgba(46, 62, 80, 0.07);
+    --shadow-medium: 0 4px 10px rgba(46, 62, 80, 0.1);
+    --border-radius-sm: 5px;
+    --border-radius-md: 8px;
+}
+
+/* Um reset básico pra evitar dores de cabeça com estilos padrão do navegador */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--secondary-bg); /* Fundo da página toda */
+    color: var(--text-primary);
+    display: flex; /* Ajuda a organizar o layout em coluna */
+    flex-direction: column;
+    min-height: 100vh; /* Pra ocupar a tela toda na altura */
+    overflow-x: hidden; /* Evitar scroll lateral desnecessário */
+}
+
+/* --- CABEÇALHO --- */
+.app-header {
+    background-color: var(--accent-color); /* AGORA O AZUL CLARO PEDIDO! */
+    padding: 15px 25px;
+    box-shadow: var(--shadow-medium); /* Uma sombrinha pra destacar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Tiramos a borda inferior, já que o fundo agora é claro e destacado */
+}
+
+.app-header h1 {
+    font-size: 1.9em; /* Um pouco maior pra dar mais presença */
+    font-weight: 500;
+    color: var(--text-primary); /* Texto escuro para contraste com o fundo azul claro */
+    display: flex;
+    align-items: center;
+}
+
+.app-header .header-paint-text { /* Estilo específico para a palavra "Paint" no título */
+    font-weight: 300;
+    color: var(--color-tedi-blue-dark); /* Azul escuro pra diferenciar um pouco */
+    margin-left: 0.2em; /* Pequeno espaço */
+}
+
+.app-header .header-icon { /* Ícone do pincel no título */
+    font-size: 1.0em; /* Ajuste fino no tamanho do ícone */
+    margin-left: 10px;
+    color: var(--text-primary); /* Também escuro */
+}
+
+/* --- ÁREA PRINCIPAL DO APP --- */
+.app-main {
+    display: flex;
+    flex-grow: 1; /* Faz essa área ocupar o espaço que sobrar */
+    padding: 20px;
+    gap: 20px;
+}
+
+/* --- BARRA LATERAL DE CONTROLES --- */
+.controls-sidebar {
+    width: 270px;
+    background-color: var(--sidebar-bg);
+    padding: 18px; /* Um pouquinho mais de respiro interno */
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Espaço entre os grupos de controle */
+    height: fit-content; /* Super importante pra barra não ficar gigante à toa */
+    max-height: calc(100vh - 110px); /* Altura máxima esperta pra evitar scroll (altura da tela - cabeçalho - folgas) */
+    overflow-y: auto; /* Scroll vertical SÓ SE precisar mesmo */
+}
+
+.control-group .group-title {
+    font-size: 1.1em; /* Títulos dos grupos um pouco maiores */
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Paleta de Cores para desenhar */
+.color-palette {
+    display: grid;
+    /* Isso aqui faz a grade de cores se ajustar sozinha, tentando colocar o máximo de botões por linha */
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+    gap: 8px;
+}
+
+.color-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--border-radius-sm); /* Cantos arredondados pra suavidade */
+    border: 2px solid var(--border-color);
+    cursor: pointer; /* Mãozinha pra mostrar que é clicável */
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease; /* Efeito suave ao interagir */
+}
+
+.color-btn:hover {
+    transform: scale(1.12); /* Aumenta um pouquinho ao passar o mouse */
+    border-color: var(--border-hover-color); /* Borda muda de cor */
+}
+
+.color-btn.active { /* Quando a cor está selecionada */
+    border-color: var(--color-tedi-blue-dark); /* Borda escura pra destacar bem */
+    box-shadow: 0 0 0 3px var(--color-tedi-blue-dark); /* Mais um destaque */
+    transform: scale(1.08); /* Leve aumento */
+}
+
+/* Botões de Ferramenta e Ação (estilo geral) */
+.tool-btn, .action-btn {
+    display: flex;
+    align-items: center; /* Alinha o ícone e o texto verticalmente */
+    gap: 8px; /* Espacinho entre ícone e texto */
+    padding: 10px 14px; /* Espaçamento interno (vertical, horizontal) - um pouco mais alto */
+    width: 100%; /* Ocupa toda a largura disponível */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-white);
+    color: var(--text-secondary);
+    font-size: 0.92em; /* Tamanho do texto nos botões */
+    font-weight: 400; /* Peso da fonte Rubik regular */
+    cursor: pointer;
+    transition: all 0.15s ease; /* Transição pra tudo */
+    margin-bottom: 8px; /* Espacinho embaixo de cada botão */
+}
+
+.tool-btn .material-icons-outlined,
+.action-btn .material-icons-outlined {
+    font-size: 1.25em; /* Tamanho dos ícones nos botões */
+}
+
+.tool-btn:hover, .action-btn:hover {
+    border-color: var(--border-hover-color);
+    color: var(--color-tedi-blue-dark);
+    background-color: #E9F8FF; /* Azul bem clarinho no hover */
+    box-shadow: var(--shadow-soft); /* Sombra sutil no hover */
+}
+
+.tool-btn.active { /* Botão de ferramenta ativo */
+    background-color: var(--accent-color); /* Fundo com o azul claro principal */
+    border-color: var(--accent-color);
+    color: var(--text-on-accent); /* Texto escuro, pra ler bem sobre o azul claro */
+    font-weight: 500; /* Texto um pouco mais forte quando ativo */
+}
+.tool-btn.active .material-icons-outlined {
+    color: var(--text-on-accent); /* Ícone também com a cor do texto ativo */
+}
+
+/* Caso especial pra borracha ativa */
+#eraser-btn.active {
+    background-color: var(--color-tedi-gray-light); /* Fundo cinza pra indicar que tá apagando */
+    border-color: var(--text-secondary);
+    color: var(--text-secondary);
+}
+#eraser-btn.active .material-icons-outlined{
+    color: var(--text-secondary);
+}
+
+
+/* Botões de Tamanho do Pincel/Traço */
+.brush-size-buttons {
+    display: flex;
+    justify-content: space-between; /* Distribui os botões igualmente */
+    gap: 7px; /* Espacinho entre eles */
+}
+
+.brush-size-btn {
+    flex-grow: 1; /* Faz eles ocuparem o espaço disponível igualmente */
+    padding: 8px 0; /* Espaçamento interno */
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-white);
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.88em; /* Texto um pouco menor aqui */
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.brush-size-btn:hover {
+    border-color: var(--border-hover-color);
+    color: var(--color-tedi-blue-dark);
+    background-color: #E9F8FF;
+}
+
+.brush-size-btn.active { /* Botão de tamanho ativo */
+    background-color: var(--accent-color); /* Azul claro principal */
+    border-color: var(--accent-color);
+    color: var(--text-on-accent); /* Texto escuro */
+}
+
+/* Botões de Ação Específicos: Limpar e Salvar */
+.clear-btn { /* Botão Limpar Tudo */
+    color: var(--danger-color); /* Texto vermelho */
+    border-color: #FADBD8; /* Borda vermelha clarinha */
+}
+.clear-btn:hover {
+    background-color: var(--danger-color); /* Fundo vermelho no hover */
+    border-color: var(--danger-color);
+    color: var(--text-on-dark); /* Texto branco */
+}
+.clear-btn:hover .material-icons-outlined {
+    color: var(--text-on-dark);
+}
+
+.save-btn { /* Botão Salvar Arte */
+    color: var(--color-tedi-blue-dark); /* Texto escuro */
+    border-color: var(--border-color); /* Borda padrão */
+}
+.save-btn .material-icons-outlined { /* Ícone de salvar verde por padrão */
+    color: var(--success-color);
+}
+.save-btn:hover {
+    background-color: var(--success-color); /* Fundo verde no hover (cor de sucesso) */
+    border-color: var(--success-color);
+    color: var(--text-on-dark); /* Texto branco */
+}
+.save-btn:hover .material-icons-outlined {
+    color: var(--text-on-dark); /* Ícone também branco no hover */
+}
+
+
+/* --- ÁREA DE DESENHO (CANVAS) --- */
+.canvas-container {
+    flex-grow: 1; /* Ocupa o espaço restante */
+    display: flex;
+    align-items: center; /* Centraliza o canvas verticalmente */
+    justify-content: center; /* Centraliza o canvas horizontalmente */
+    padding: 15px;
+    border-radius: var(--border-radius-md);
+}
+
+#paintCanvas {
+    background-color: var(--canvas-bg); /* Fundo branco pra tela de pintura */
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-medium); /* Sombra pra destacar a tela */
+    cursor: crosshair; /* Cursor de mira, típico de paint */
+    max-width: 100%; /* Pra não vazar do container */
+    max-height: 100%;
+    border: 1px solid var(--border-color);
+}
+
+/* --- AJUSTES PARA TELAS MENORES (RESPONSIVIDADE) --- */
+/* Quando a tela for um pouco menor, tipo tablet ou laptop pequeno */
+@media (max-width: 880px) {
+    .app-main {
+        flex-direction: column; /* Controles em cima, canvas embaixo */
+        padding: 15px;
+        gap: 15px;
+    }
+    .controls-sidebar {
+        width: 100%; /* Barra lateral ocupa toda a largura */
+        flex-direction: row; /* Grupos de controle ficam lado a lado */
+        flex-wrap: wrap; /* Se não couber, quebra a linha */
+        justify-content: space-around;
+        gap: 15px;
+        padding: 15px;
+        max-height: none; /* Sem limite de altura aqui, deixa rolar se precisar */
+        overflow-y: visible;
+    }
+    .control-group {
+        min-width: 200px;
+        flex-basis: calc(50% - 10px); /* Tenta colocar 2 grupos por linha */
+        margin-bottom: 10px;
+    }
+    .app-header h1 {
+        font-size: 1.6em;
+    }
+}
+
+/* Quando a tela for bem pequena, tipo celular */
+@media (max-width: 520px) {
+    .controls-sidebar {
+        flex-direction: column; /* Volta pra coluna, um grupo embaixo do outro */
+        align-items: stretch; /* Estica os grupos pra ocupar a largura */
+    }
+    .control-group {
+        width: 100%;
+        flex-basis: auto;
+        min-width: unset;
+    }
+    .app-header h1 {
+        font-size: 1.45em; /* Título menorzinho */
+    }
+    .app-header {
+        padding: 12px 15px;
+    }
+    .tool-btn, .action-btn, .brush-size-btn {
+        font-size: 0.9em; /* Textos dos botões um pouco menores */
+        padding: 9px 10px; /* Menos espaçamento interno */
+    }
+    .brush-size-buttons {
+        flex-wrap: wrap; /* Botões de tamanho podem quebrar linha */
+    }
+    .brush-size-btn {
+        flex-basis: calc(50% - 4px); /* Dois por linha */
+        margin-bottom: 6px;
+    }
+}
