@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEDI Paint - Arte para Todos!</title> <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="icon" href="tedi.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="app-header">
+        <h1>TEDI <span class="header-paint-text">Paint</span> <span class="material-icons-outlined header-icon">brush</span></h1>
+    </header>
+
+    <main class="app-main">
+        <div class="controls-sidebar">
+
+            <div class="control-group">
+                <h2 class="group-title">Cores pra Pintar</h2>
+                <div class="color-palette">
+                    <button class="color-btn active" style="background-color: #000000;" data-color="#000000" title="Preto (IDV)"></button>
+                    <button class="color-btn" style="background-color: #2E3E50;" data-color="#2E3E50" title="Azul Escuro (IDV)"></button>
+                    <button class="color-btn" style="background-color: #8EC6E6;" data-color="#8EC6E6" title="Azul Claro (IDV)"></button>
+                    <button class="color-btn" style="background-color: #A1D99B;" data-color="#A1D99B" title="Verde Claro (IDV)"></button>
+                    
+                    <button class="color-btn" style="background-color: #E74C3C;" data-color="#E74C3C" title="Vermelho"></button>
+                    <button class="color-btn" style="background-color: #F1C40F;" data-color="#F1C40F" title="Amarelo"></button>
+                    <button class="color-btn" style="background-color: #9B59B6;" data-color="#9B59B6" title="Roxo"></button>
+                    <button class="color-btn" style="background-color: #E0E0E0;" data-color="#E0E0E0" title="Cinza Claro (IDV)"></button> <button class="color-btn" style="background-color: #F39C12;" data-color="#F39C12" title="Laranja"></button>
+                    <button class="color-btn" style="background-color: #EC70A1;" data-color="#EC70A1" title="Rosa"></button>
+                    <button class="color-btn" style="background-color: #5DADE2;" data-color="#5DADE2" title="Azul Céu"></button>
+                    <button class="color-btn" style="background-color: #48C9B0;" data-color="#48C9B0" title="Verde Água"></button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h2 class="group-title">Ferramentas</h2>
+                <div class="tool-selection">
+                    <button id="pencil-btn" class="tool-btn active" title="Pincel (Desenhar)">
+                        <span class="material-icons-outlined">edit</span> Pincel
+                    </button>
+                    <button id="eraser-btn" class="tool-btn" title="Borracha (Apagar)">
+                        <span class="material-icons-outlined">crop_square</span> Borracha </button>
+                    <button id="bucket-btn" class="tool-btn" title="Balde de Tinta (Preencher)">
+                        <span class="material-icons-outlined">format_paint</span> Balde
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h2 class="group-title">Grossura do Traço</h2>
+                <div class="brush-size-buttons">
+                    <button class="brush-size-btn" data-size="3" title="Pequeno">P</button>
+                    <button class="brush-size-btn active" data-size="8" title="Médio">M</button>
+                    <button class="brush-size-btn" data-size="15" title="Grande">G</button>
+                    <button class="brush-size-btn" data-size="30" title="Gigante">XG</button>
+                </div>
+            </div>
+
+            <div class="control-group actions-group">
+                <h2 class="group-title">Outras Opções</h2>
+                <button id="clear-canvas-btn" class="action-btn clear-btn" title="Limpar toda a tela">
+                    <span class="material-icons-outlined">delete_sweep</span> Limpar Tudo
+                </button>
+                <button id="save-canvas-btn" class="action-btn save-btn" title="Salvar seu desenho">
+                    <span class="material-icons-outlined">save</span> Salvar Arte
+                </button>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="paintCanvas"></canvas>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
